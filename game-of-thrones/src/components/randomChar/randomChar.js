@@ -4,6 +4,7 @@ import "./randomChar.css";
 import gotService from "../services/gotService";
 import Spinner from "reactstrap/lib/Spinner";
 import ErrorMessage from "../errorMessage";
+import App from "../app/app";
 
 export default class RandomChar extends Component {
   constructor() {
@@ -22,32 +23,32 @@ export default class RandomChar extends Component {
     this.setState({
       char,
       loading: false,
-      erroe:false
+      error: false,
     });
   };
 
   onError = (err) => {
-this.setState({
-  error:true,
-  loading:false
-})
-  }
+    this.setState({
+      error: true,
+      loading: false,
+    });
+  };
 
   updateChar() {
     const id = Math.floor(Math.random() * 140 + 25);
-    this.gotService.getCharacter(id)
+    this.gotService
+      .getCharacter(id)
       .then(this.onCharLoaded)
-      .catch(this.onError)
-
+      .catch(this.onError);
   }
 
   render() {
-    const { char, loading,error } = this.state;
+    const { char, loading, error } = this.state;
 
-    const errorMessage = error ? <ErrorMessage/> : null;
-    const spinner = loading ? <Spinner/> :  null;
-    const content = !(loading || error) ? <View char={char}/> : null;
-    
+    const errorMessage = error ? <ErrorMessage /> : null;
+    const spinner = loading ? <Spinner /> : null;
+    const content = !(loading || error) ? <View char={char} /> : null;
+
     return (
       <div className="random-block rounded">
         {errorMessage}
@@ -60,6 +61,7 @@ this.setState({
 
 const View = ({ char }) => {
   const { name, gender, born, died, culture } = char;
+
   return (
     <>
       <h4>Random Character: {name}</h4>
