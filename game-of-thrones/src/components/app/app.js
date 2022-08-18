@@ -23,7 +23,7 @@ function App() {
         ) : null}
 
         <button className="btn btn-info" onClick={() => setHidden((s) => !s)}>
-          {" "}
+         
           Press
         </button>
         <Row>
