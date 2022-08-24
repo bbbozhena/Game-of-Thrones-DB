@@ -1,42 +1,68 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import { Col, Row, Container } from "reactstrap";
 import Header from "../header";
 import RandomChar from "../randomChar";
 import ItemList from "../itemList";
 import CharDetails from "../charDetails";
 
-function App() {
-  const [hidden, setHidden] = useState(false);
+export default class App extends Component {
 
-  return (
-    <>
-      <Container>
-        <Header />
-      </Container>
-      <Container>
-        {!hidden ? (
-          <Row>
-            <Col lg={{ size: 5, offset: 0 }}>
-              <RandomChar />
-            </Col>
-          </Row>
-        ) : null}
 
-        <button className="btn btn-info" onClick={() => setHidden((s) => !s)}>
-         
-          Press
-        </button>
-        <Row>
-          <Col md="6">
-            <ItemList />
-          </Col>
-          <Col md="6">
-            <CharDetails />
-          </Col>
-        </Row>
-      </Container>
-    </>
-  );
+  state = {
+    showRandomChar: true,
+      selectedChar: 130
+  };
+  
+  toggleRandomChar = () => {
+      this.setState((state) => {
+          return {
+              showRandomChar: !state.showRandomChar
+          }
+      });
+  };
+
+  onCharSelected = (id) => {
+      this.setState ({
+          selectedChar: id
+      })
+  }
+
+  render () {
+
+    const char = this.state.showRandomChar ? <RandomChar/> : null;
+    return (
+        <>
+          <Container>
+            <Header />
+          </Container>
+          <Container>
+            
+              <Row>
+                <Col lg={{ size: 5, offset: 0 }}>
+                  {char}
+                  <button
+                  className="toggle-btn btn-info"
+                  onClick={this.toggleRandomChar}> Toggle random character
+
+                  </button>
+                </Col>
+              </Row>
+            <Row>
+              <Col md="6">
+                <ItemList onCharSelected={this.onCharSelected}/>
+              </Col>
+              <Col md="6">
+                <CharDetails charId = {this.state.selectedChar} />
+              </Col>
+            </Row>
+          </Container>
+        </>
+      );
+  }
+
+
+  
 }
 
-export default App;
+
+

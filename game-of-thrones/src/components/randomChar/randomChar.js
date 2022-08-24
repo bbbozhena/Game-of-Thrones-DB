@@ -4,24 +4,21 @@ import "./randomChar.css";
 import gotService from "../services/gotService";
 import Spinner from "reactstrap/lib/Spinner";
 import ErrorMessage from "../errorMessage";
-import App from "../app/app";
 
 export default class RandomChar extends Component {
-
   gotService = new gotService();
-
   state = {
     char: {},
     loading: true,
-    mess: false,
+    error: false
   };
 
-  componentDidMount (){
+  componentDidMount() {
     this.updateChar();
     this.timerId = setInterval(this.updateChar, 4000);
   }
-  componentWillUnmount (){
-    clearInterval(this.timerId)
+  componentWillUnmount() {
+    clearInterval(this.timerId);
   }
 
   onCharLoaded = (char) => {
